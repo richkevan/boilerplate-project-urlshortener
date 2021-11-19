@@ -34,7 +34,7 @@ app.post('/api/shorturl', function(req, res) {
       let url = req.body.url;
     let short = shortid.generate();
     urls[`${short}`] = [url,short]
-    res.json({original_url: url, short_url: short });
+    res.json({original_url : url, short_url : short });
     }
   });
 })
