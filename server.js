@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const shortid = require('shortid');
-const dns = require('dns');
+const url = require('url');
 
 // Basic Configuration
 const port = process.env.PORT || 3000;
@@ -26,18 +26,15 @@ app.get('/api/hello', function(req, res) {
 });
 
 app.post('/api/shorturl', function(req, res) {
-  dns.lookup(req.body.url, (err, address, family) => {
-    if (err) {
-      res.json({ error: 'invalid URL' });
-    }
-    else {
-      let url = req.body.url;
+  try {
+    const {href, host, pathname, protocol } = new URL(req.body.url);
     let short = shortid.generate();
-    urls[`${short}`] = [url,short]
-    res.json({original_url : url, short_url : short });
-    }
+    urls[`${short}`] = [href,short]
+    res.json({original_url : href, short_url : short });
+  } catch (err) {
+    res.json({error : "invalid URL"});
+  }
   });
-})
 
 app.get('/api/shorturl/:short_url', function (req, res) {
   res.redirect(`https://${urls[req.params.short_url][0]}`);
