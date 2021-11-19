@@ -27,7 +27,7 @@ app.get('/api/hello', function(req, res) {
 
 app.post('/api/shorturl', function(req, res) {
     const httpRegex = /^(http|https)(:\/\/)/;
-    if (!httpRegex.test(originalURL)) {return res.json({ error: 'invalid url' })}
+    if (!httpRegex.test(req.body.url)) {return res.json({ error: 'invalid url' })}
     const {href, host, pathname, protocol } = new URL(req.body.url);
     let short = shortid.generate();
     urls[`${short}`] = [href,short]
