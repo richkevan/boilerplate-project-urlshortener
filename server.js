@@ -32,12 +32,12 @@ app.post('/api/shorturl', function(req, res) {
     urls[`${short}`] = [href,short]
     res.json({original_url : href, short_url : short });
   } catch (err) {
-    res.json({error : "invalid URL"});
+    res.json({error : "invalid url"});
   }
   });
 
 app.get('/api/shorturl/:short_url', function (req, res) {
-  res.redirect(`https://${urls[req.params.short_url][0]}`);
+  res.redirect(urls[req.params.short_url][0]);
 })
 
 app.listen(port, function() {
