@@ -39,7 +39,7 @@ app.post('/api/shorturl', function(req, res) {
     const {href, host, pathname, protocol } = new URL(req.body.url);
     let short = shortid.generate();
     urls[`${short}`] = [href,short]
-    res.render('short',{original_url : href, short_url : short , base: __dirname});
+    res.render('short',{original_url : href, short_url : short , base: req.get('host')+'/api/shorturl/'})
   });
 
 app.get('/api/shorturl/:short_url', function (req, res) {
